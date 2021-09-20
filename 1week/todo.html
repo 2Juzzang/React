@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 투두</title>
+</head>
+<style>
+    #title {
+        color: blue;
+        text-decoration: underline;
+    }
+    .wrap{
+        display: flex;
+    }
+    .todo-card {
+        width: 200px;
+        border: gray 1px solid;
+        padding: 2em;
+        margin: 1em;
+        border-radius: 5px;
+        flex: 1 1 0;
+    }
+    button {
+        width: calc(25%);
+    }
+    button:hover {
+        background-color: yellow;
+    }
+</style>
+
+<body>
+    <h1 id="title">오늘 할 일</h1>
+    <div class="wrap">
+        <div class="todo-card">
+            <h2>고양이 밥주기</h2>
+            <h3>고양이 물, 사료 챙겨주기</h3>
+            <button onclick="changeBackground(0)">완료</button>
+        </div>
+        <div class="todo-card">
+            <h2>장보기</h2>
+            <h3>토마토, 계란, 초코렛 사기</h3>
+            <button>완료</button>
+        </div>
+    </div>
+    <div class="wrap">
+        <div class="todo-card">
+            <h2>코딩하기</h2>
+            <h3>리액트 강의 1주차 듣기</h3> <!-- 엘리먼트 (요소) -->
+            <h3></h3>                       <!-- 태그 -->
+            <button>완료</button>
+        </div>
+        <div class="todo-card">
+            <h2>코딩하기</h2>
+            <h3>리액트 강의 1주차 듣기</h3> 
+            <h3></h3> 
+            <button>완료</button>
+        </div>
+    </div>
+
+    <script>
+        // 자바스크립트로 DOM요소 조작하기
+        
+        //콘솔로 찍어보기
+        const wraps = document.getElementsByClassName('wrap');
+        const title = document.getElementById('title');
+        title.style.backgroundColor = 'yellow';
+        const buttons = document.getElementsByTagName("button");
+        console.log(wraps, title, buttons)
+
+        // 클릭이벤트 만들기
+        function sayHello() {
+            console.log("Hello");           
+        }
+        for (let i = 0; i<buttons.length; i++) {
+            buttons[i].addEventListener("click", sayHello)
+        }
+        
+        //onClick 이벤트
+        function changeBackground(index) {
+            const target = document.getElementsByClassName('todo-card')[index];
+            target.style.backgroundColor = 'gray';
+        }
+
+        //새로운 요소 만들어 붙이기
+        const new_div = document.createElement('div');
+        console.log(new_div);
+        document.body.appendChild(new_div);
+        new_div.style.width = '100px';
+        new_div.style.height = '100px';
+        new_div.style.backgroundColor = 'green';
+    </script>
+</body>
+
+</html>
