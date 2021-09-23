@@ -1,8 +1,14 @@
 import React from "react";
 import styled from 'styled-components';
 import img from "./scc_img01.png";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import {setName} from "./redux/modules/user";
 
 const Start = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const name_ref = React.useRef(null);
     return(
         <Container>
             <Content>
@@ -11,8 +17,11 @@ const Start = (props) => {
             얼마나 알고 있을까?</h5>
             
         
-            <Inputbox type="text" placeholder="내 이름" />
-            <StartBtn>시작하기</StartBtn>
+            <Inputbox ref={name_ref} type="text" placeholder="내 이름" />
+            <StartBtn onClick={() => {
+              dispatch(setName(name_ref.current.value));
+              history.push("/quiz")
+            }}>시작하기</StartBtn>
             </Content>
         </Container>
     );
