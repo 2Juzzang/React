@@ -1,0 +1,36 @@
+.App {
+    background-color: #eee;
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* .container {
+    width: 300px;
+    background-color: #fff;
+    max-width: 350px;
+    height: 80vh;
+    margin: auto;
+    width: 50vw;
+    border-radius: 10px;
+    border: solid 1px #ddd;
+    padding: 20px;
+}
+
+.container > h1 {
+    color: slateblue;
+    text-align: center;
+} */
+
+/* 컨테이너 안의 line 이라는 요소를 선택 >> 부모 자식 요소 선택자 */
+/* .container > .line {
+    margin: 16px 0px;
+} */
+
+/* .list_item {
+    background-color: aliceblue;
+    margin: 8px;
+    padding: 16px;
+} */
+
