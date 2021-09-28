@@ -2,16 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { loadMusicFB } from "./redux/modules/song";
-import { useDispatch } from "react-redux";
+// import { loadMusicFB } from "./redux/modules/song";
+// import { useDispatch } from "react-redux";
 // import {db} from "./firebase"
 // import { collection, getDoc, getDocs} from "firebase/firestore";
 
 function Card (props) {
-    const dispatch = useDispatch();
-    React.useEffect(async() => {
-    //     console.log(db);
-    dispatch(loadMusicFB());
+    // const dispatch = useDispatch();
+    // React.useEffect(async() => {
+    // dispatch(loadMusicFB());
         
 
     //     불러오기
@@ -20,7 +19,7 @@ function Card (props) {
     //     query.forEach((doc) => {
     //         console.log(doc.id, doc.data());
     //     });
-    }, []);
+    // }, []);
 
     const list = useSelector((state) => state.song.list);
     // console.log(list)
