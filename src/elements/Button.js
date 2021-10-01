@@ -24,6 +24,7 @@ const BtnBox = styled.button`
     padding: 12px 0px;
     box-sizing: border-box;
     border: none;
+    cursor: pointer;
 `;
 
 Button.defaultProps = {

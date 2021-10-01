@@ -1,8 +1,21 @@
 import React from "react";
 import Button from "../elements/Button";
 import { Text, Input, Grid } from "../elements";
-
+import { setCookie } from "../shared/Cookie";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 const Login = (props) => {
+    const dispatch = useDispatch();
+    
+    const login = () => {
+        dispatch(userActions.loginAction({user_name:'perl'}));
+        
+
+
+        // setCookie("user_id", "hoon", 3);
+        // setCookie("user_pwd", "ppp", 3);
+    }
+
     return(
         <React.Fragment>
         <Grid padding="16px 16px">
@@ -13,7 +26,7 @@ const Login = (props) => {
         <Input label="비밀번호" placeholder="비밀번호를 입력해주세요"></Input>
         </Grid>
         <Grid padding="0px 16px">
-        <Button></Button>
+        <Button _onClick={()=>{login();}}></Button>
         </Grid>
         </React.Fragment>
     )
