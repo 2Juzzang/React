@@ -39,7 +39,7 @@ const GridBox = styled.div`
     ${(props) => (props.is_flex 
     ? `display: flex; align-items: center; justify-content: space-between` 
     : "")}
-    /* justify-content: s; */
+    justify-content: s;
 `;
 
 export default Grid;
