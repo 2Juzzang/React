@@ -19,7 +19,7 @@ const Notification = (props) => {
     }  
     // 유저정보가 있다면 
     const notiDB = realtime.ref(`noti/${user.uid}/list`);
-    console.log("노티디비", user.uid)
+    console.log("노티22", notiDB)
     // realtime DB에는 orderBy가 없어서 다른 정렬 함수인 orderByChild를 사용
     // realtime DB는 내림차순을 지원하지 않음 >> 일단 데이터를 가져와서 자바스크립트로 역순으로 정렬!
     const _noti = notiDB.orderByChild("insert_dt");
@@ -32,7 +32,7 @@ const Notification = (props) => {
         //댓글 알림 10, 데이터를 객체로 가져옴 > 객체의 키 값 추출 후 역순으로 정렬
         let _data = snapshot.val();
         console.log("asd", _data)
-        
+      
         //댓글 알림 11, reverse()는 [1,2,3,4,5] >> [5,4,3,2,1] (역순으로) 정렬한다.
         let _noti_list = Object.keys(_data).reverse().map(s => {
           return _data[s];

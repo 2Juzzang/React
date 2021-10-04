@@ -39,8 +39,7 @@ const NotiBadge = (props) => {
 
 NotiBadge.defaultProps = {
     _onClick: () => {
-
-    }
+    },
 };
 
 export default NotiBadge;

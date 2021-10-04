@@ -66,8 +66,9 @@ const addCommentFB = (post_id, contents) => {
             // const notiDB = realtime.ref(`noti/${post.user_info.user_id}`);
 
             // 댓글 알림 7, 알림 내역을 저장할 공간을 만든다.
-            const _noti_item = realtime.ref(`noti/${post.user_info.user_id}`).push();
-            
+            const _noti_item = realtime.ref(`noti/${post.user_info.user_id}/list`).push();
+            console.log("노티11", _noti_item);
+
             // 댓글 알림 8, 여기서 set을 하면 데이터를 넣어줄 수 있다.
             _noti_item.set({
                 post_id: post.id,

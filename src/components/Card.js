@@ -2,6 +2,7 @@ import React from "react";
 import {Grid, Image, Text} from "../elements";
 
 import { history } from "../redux/configureStore";
+
 const Card = (props) => {
     const {image_url, user_name, post_id} = props;
 
