@@ -7,6 +7,7 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 const CommentList = (props) => {
   const dispatch = useDispatch();
   const comment_list = useSelector(state => state.comment.list);
+  console.log("코멘트리스트", comment_list)
   const {post_id} = props;
 
   React.useEffect(() => {

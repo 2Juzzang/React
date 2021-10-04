@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore, realtime } from "../../shared/firebase";
 import "moment";
 import moment from "moment";
 import firebase from "firebase/app";
@@ -24,44 +24,74 @@ const initialState = {
 
 //댓글 13, 파이어베이스에 댓글데이터 삽입
 const addCommentFB = (post_id, contents) => {
-    return function(dispatch, getState, {history}){
-        const commentDB = firestore.collection("comment");
-        const user_info = getState().user.user;
+  return function (dispatch, getState, { history }) {
+    const commentDB = firestore.collection("comment");
+    const user_info = getState().user.user;
 
-        let comment = {
-            post_id: post_id,
-            user_id: user_info.uid,
-            user_name: user_info.user_name,
-            user_profile: user_info.user_profile,
-            contents: contents,
-            insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
-        }
+    let comment = {
+      post_id: post_id,
+      user_id: user_info.uid,
+      user_name: user_info.user_name,
+      user_profile: user_info.user_profile,
+      contents: contents,
+      insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
+    };
 
-        //댓글 추가에 성공할 경우 then 수행
-        commentDB.add(comment).then((doc) => {
-            //댓글 14, 댓글 갯수 + 1, 파이어베이스에서 가져온다.
-            const postDB = firestore.collection("post");
-            // increment ()안의 숫자만큼을 현재 값에서 추가해줌.
-            const increment = firebase.firestore.FieldValue.increment(1);
-            // 리덕스에 있는 포스트 정보를 가져온다.
-            const post = getState().post.list.find(l => l.id === post_id);
+    //댓글 추가에 성공할 경우 then 수행
+    commentDB.add(comment).then((doc) => {
+      //댓글 14, 댓글 갯수 + 1, 파이어베이스에서 가져온다.
+      const postDB = firestore.collection("post");
+      // increment ()안의 숫자만큼을 현재 값에서 추가해줌.
+      const increment = firebase.firestore.FieldValue.increment(1);
+      // 리덕스에 있는 포스트 정보를 가져온다.
+      const post = getState().post.list.find((l) => l.id === post_id);
 
-            comment = {...comment, id: doc.id};
-            postDB
-            .doc(post_id)
-            .update({comment_cnt: increment})
-            .then((_post) => {
-                dispatch(addComment(post_id, comment));
+      comment = { ...comment, id: doc.id };
+      postDB
+        .doc(post_id)
+        .update({ comment_cnt: increment })
+        .then((_post) => {
+          dispatch(addComment(post_id, comment));
 
-                //댓글 15, 게시물 내의 댓글 개수 업데이트, 포스트 정보가 필요함
-                //묵시적 형변환을 예방하기위해 괄호 안의 값을 숫자 데이터로 바꿔주는 parseInt 사용
-                if(post){
-                    dispatch(postActions.editPost(post_id, {comment_cnt: parseInt(post.comment_cnt)+ 1}));
+          //댓글 15, 게시물 내의 댓글 개수 업데이트, 포스트 정보가 필요함
+          //묵시적 형변환을 예방하기위해 괄호 안의 값을 숫자 데이터로 바꿔주는 parseInt 사용
+          if (post) {
+            dispatch(
+              postActions.editPost(post_id, {
+                comment_cnt: parseInt(post.comment_cnt) + 1,
+              })
+            );
+            //댓글 알림 5, post 안에 담겨있는 user_id를 써야 그 유저 정보에다가 붙여 줄 수 있다.  
+            //또, 알람은 댓글 작성자가 아닌 게시글 작성자에게 가야하므로!
+            // const notiDB = realtime.ref(`noti/${post.user_info.user_id}`);
+
+            // 댓글 알림 7, 알림 내역을 저장할 공간을 만든다.
+            const _noti_item = realtime.ref(`noti/${post.user_info.user_id}`).push();
+            
+            // 댓글 알림 8, 여기서 set을 하면 데이터를 넣어줄 수 있다.
+            _noti_item.set({
+                post_id: post.id,
+                user_name: comment.user_name,
+                image_url:post.image_url,
+                insert_dt:comment.insert_dt,
+                // 에러가 나면 아래 구문으로
+            }, (err) => {
+                if(err){
+                    console.log('알림 저장에 실패했습니다.');
+                } else{
+                // 성공시
+                    const notiDB = realtime.ref(`noti/${post.user_info.user_id}`);
+                    notiDB.update({read: false});
                 }
-            })
-        })
-    }
-}
+            });
+            // notiDB.update({read: false});
+            //현재는 내 프로젝트기 때문에 알람이 뜨지만 원래는 게시글 유저와 댓글을 단 유저 id를 비교해줘야 한다.
+            
+          }
+        });
+    });
+  };
+};
 
 
 //댓글 7, post_id가 없으면 안되게 if문으로 막는다.

@@ -1,13 +1,15 @@
 import React from "react";
 import {Grid, Image, Text} from "../elements";
 
+import { history } from "../redux/configureStore";
 const Card = (props) => {
     const {image_url, user_name, post_id} = props;
 
     return (
-      <Grid padding="16px" is_flex bg="#ffffff" margin="8px 0px">
+      // 댓글 알림 12, onclick 으로 알림에서 해당 포스트로 갈 수 있게 한다.
+      <Grid _onClick={() => {history.push(`/post/${post_id}`);}} padding="16px" is_flex bg="#ffffff" margin="8px 0px">
         <Grid width="auto" margin="0px 8px 0px 0px">
-          <Image size={85} shape="square" image_url={image_url}/>
+          <Image size={85} shape="square" src={image_url}/>
         </Grid>
         <Grid>
           <Text>
