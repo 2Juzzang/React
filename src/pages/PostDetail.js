@@ -3,11 +3,11 @@ import Post from "../components/Post";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
-import { useSelector } from "react-redux";
-import { firestore } from "../shared/firebase";
-
+import Permit from "../shared/Permit"
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as postAcitons } from "../redux/modules/post";
 const PostDetail = (props) => {
-
+    const dispatch = useDispatch();
     const id = props.match.params.id;
     console.log("아이디", id)
 
@@ -16,9 +16,8 @@ const PostDetail = (props) => {
 
     const post_list = useSelector(store => store.post.list);
     const post_idx = post_list.findIndex(p => p.id === id);
-    const post_data = post_list[post_idx];
+    const post = post_list[post_idx];
 
-    const [post, setPost] = React.useState(post_data ? post_data : null);
 
     //단일 데이터
     React.useEffect(() => {
@@ -26,35 +25,20 @@ const PostDetail = (props) => {
         if(post){
             return;
         }
-
-        //DB가져오기
-        const postDB = firestore.collection("post");
-        postDB.doc(id).get().then(doc => {
-            console.log("독", doc);
-            console.log("독데이터", doc.data());
-            let _post = doc.data();
-
-            let post = Object.keys(_post).reduce(
-                (acc, cur) => {
-                  if (cur.indexOf("user_") !== -1) {
-                    return {
-                      ...acc,
-                      user_info: { ...acc.user_info, [cur]: _post[cur] },
-                    };
-                  }
-                  return { ...acc, [cur]: _post[cur] };
-                },
-                { id: doc.id, user_info: {} }
-              );
-              setPost(post);
-        })
+        //댓글4 디스패치를 통해 DB가져오기
+        dispatch(postAcitons.getOnePostFB(id));
     }, []);
 
     return (
         <React.Fragment>
-            {post && ( <Post {...post} is_me={post.user_info.user_id === user_info.uid} />)}
-            <CommentWrite/>
-            <CommentList/>
+          {/* 댓글 5, 비회원일 경우 user_info가 null이며 uid가 없어 에러가 날 것 >> 옵셔널 체이닝 사용 */}
+            {post && ( <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />)}
+           {/* 댓글 6, 게시물에 대한 댓글은 댓글을 단 게시물에만 보여야 하므로 id 설정 */}
+            {/* 권한 있는 회원만 작성할 수 있게 permit으로 감싼다. */}
+            <Permit>
+            <CommentWrite post_id={id} />
+            </Permit>
+            <CommentList post_id={id} />
         </React.Fragment>
     )
 }

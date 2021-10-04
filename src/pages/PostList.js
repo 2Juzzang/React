@@ -19,7 +19,7 @@ const PostList = (props) => {
 
   React.useEffect(() => {
     // 2 unshift를 써도 첫 글로 안와서 리스트의 길이가 0일때 불러오게 함
-    if (post_list.length === 0) {
+    if (post_list.length < 2) {
       dispatch(postActions.getPostFB());
     }
   }, []);

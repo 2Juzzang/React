@@ -213,42 +213,57 @@ const getPostFB = (start = null, size = 3) => {
   };
 };
 
-    // return;
-    // postDB.get().then((docs) => {
-    //   let post_list = [];
-    //   docs.forEach((doc) => {
-    //     let _post = doc.data();
+//댓글기능 1
+//하나를 특정해서 가져오기 때문에 id 사용
+const getOnePostFB = (id) => {
+  return function(dispatch, getState, {history}){
+    //파이어스토어 데이터 가져오기 postDetail copy
+    const postDB = firestore.collection("post");
+    postDB.doc(id).get().then(doc => {
+      console.log("독", doc);
+      console.log("독데이터", doc.data());
+      let _post = doc.data();
 
-    //     // ['commenct_cnt', 'contents', ..]
-    //     let post = Object.keys(_post).reduce(
-    //       (acc, cur) => {
-    //         if (cur.indexOf("user_") !== -1) {
-    //           return {
-    //             ...acc,
-    //             user_info: { ...acc.user_info, [cur]: _post[cur] },
-    //           };
-    //         }
-    //         return { ...acc, [cur]: _post[cur] };
-    //       },
-    //       { id: doc.id, user_info: {} }
-    //     );
-
-    //     post_list.push(post);
-    //   });
-
-    //   console.log(post_list);
-
-    //   dispatch(setPost(post_list));
-    // });
- 
+      let post = Object.keys(_post).reduce(
+          (acc, cur) => {
+            if (cur.indexOf("user_") !== -1) {
+              return {
+                ...acc,
+                user_info: { ...acc.user_info, [cur]: _post[cur] },
+              };
+            }
+            return { ...acc, [cur]: _post[cur] };
+          },
+          { id: doc.id, user_info: {} }
+        );
+        // 게시글 하나의 정보, 페이징정보는 defalut값 (3단계에서 삭제)
+        dispatch(setPost([post]));
+    });
+  }
+}
 
 export default handleActions(
   {
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
-        // draft.list = action.payload.post_list;
-        draft.paging = action.payload.paging;
+        //댓글 2, 위에서 포스트를 가져왔지만 글목록에서 중복이 생길 수 있으므로 reduce 사용해서 중복을 삭제 
+        draft.list = draft.list.reduce((acc, cur) => {
+          //중복된 값이 없을 때
+          if(acc.findIndex(a => a.id === cur.id) === -1){
+            return [...acc, cur];
+          }else{
+            //중복됐을 때
+            acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+            return acc;
+          }
+        }, []);
+
+        //댓글 3, 페이징이 없을 땐 건드리지 않고 페이징이 있을 때만 밑의 구문 실행
+        //댓글 1의 페이징 default값 삭제
+        if(action.payload.paging){
+          draft.paging = action.payload.paging;
+        }
         draft.is_loading = false;
       }),
 
@@ -276,6 +291,7 @@ const actionCreators = {
   getPostFB,
   addPostFB,
   editPostFB,
+  getOnePostFB
 };
 
 export { actionCreators };

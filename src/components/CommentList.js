@@ -1,20 +1,42 @@
 import React from "react";
 import {Grid, Image, Text} from "../elements";
 
-const CommentList = () => {
+import {useDispatch, useSelector} from "react-redux";
+import { actionCreators as commentActions } from "../redux/modules/comment";
+
+const CommentList = (props) => {
+  const dispatch = useDispatch();
+  const comment_list = useSelector(state => state.comment.list);
+  const {post_id} = props;
+
+  React.useEffect(() => {
+    // 댓글 10, 댓글리스트가 없을 때, 디스패치 해준다.
+    if(!comment_list[post_id]){
+      dispatch(commentActions.getCommentFB(post_id));
+    }
+  }, []);
+
+
+if(!comment_list[post_id] || !post_id){
+  return null;
+}
+
   return (
     <React.Fragment>
       <Grid padding="16px">
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
+        {/* 댓글 11, map으로 FB에 있는 코멘트를 뿌려준다. */}
+        {comment_list[post_id].map(c => {
+          return <CommentItem key={c.id} {...c}/>;
+        })}
       </Grid>
     </React.Fragment>
   );
 };
+
+// props 받아오는게 있기 때문에 defaultProps를 넣어준다.
+CommentList.defaultProps = {
+  post_id: null,
+}
 
 export default CommentList;
 
