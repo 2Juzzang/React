@@ -1,51 +1,54 @@
 import React from "react";
-// import Grid from "../elements/Grid"
-// import Image from "../elements/Image"
-// import Text from "../elements/Text";
+import { Grid, Image, Text, Button } from "../elements";
 
-import {Grid, Image, Text} from "../elements"
+import {history} from "../redux/configureStore";
 
-const Post = (props) => {
-    
-    return(
-        <React.Fragment>
-            <Grid>
-                <Grid is_flex>
-                    <Image shape="circle" src={props.src} />
-                    <Text bold>{props.user_info.user_name}</Text>
-                    <Text>{props.insert_dt}</Text>
-                </ Grid>
+ const Post = (props) => {
+  return (
+    <React.Fragment>
+      <Grid>
+        <Grid is_flex padding="16px">
+          <Grid is_flex width="auto">
+            <Image shape="circle" src={props.src} />
+            <Text bold>{props.user_info.user_name}</Text>
+          </Grid>
+          <Grid is_flex width="auto">
+            <Text>{props.insert_dt}</Text>
+            {props.is_me && (
+              <Button width="auto" margin="4px" padding="4px" _onClick={() => {
+                history.push(`/write/${props.id}`);
+              }}>
+                수정
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+        <Grid padding="16px">
+          <Text>{props.contents}</Text>
+        </Grid>
+        <Grid>
+          <Image shape="rectangle" src={props.image_url} />
+        </Grid>
+        <Grid padding="16px">
+          <Text margin="0px" bold>
+            댓글 {props.comment_cnt}개
+          </Text>
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
+};
 
-                <Grid padding="16px">
-                    <Text>{props.contents}</Text>
-                </Grid>
-
-                <Grid>
-                    <Image shape="rectangle" src={props.src} />
-                </Grid>
-
-                <Grid padding="16px">
-                    <Text bold>댓글 {props.comment_cnt}개</Text>
-                </Grid>
-            <div>user profile /user name / insert_dt / is_me (edit_btn) </div>
-            <div>contents</div>
-            <div>image</div>
-            <div>comment cnt</div>
-            </ Grid>
-        </React.Fragment>
-    )
-}
-
-//Props가 없을 때 생기는 오류를 막아줌
 Post.defaultProps = {
-    user_info :  {
-        user_name : "hoon",
-        user_profile : "https://images.velog.io/images/2_juzzang/post/b11582cc-9e47-4db2-9982-a80a97c06c12/0e591dbc52cf7697b6ecd779955f715b.jpg"
-    },
-    image_url : "https://images.velog.io/images/2_juzzang/post/b11582cc-9e47-4db2-9982-a80a97c06c12/0e591dbc52cf7697b6ecd779955f715b.jpg",
-    contents: "빈지노",
-    comment_cnt: 10,
-    insert_dt: "2021-09-30 14:50:00"
-}
+  user_info: {
+    user_name: "임성빈",
+    user_profile: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
+  },
+  image_url: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
+  contents: "이게 뭔가요",
+  comment_cnt: 10,
+  insert_dt: "2021-02-27 10:00:00",
+  is_me: false,
+};
 
 export default Post;
