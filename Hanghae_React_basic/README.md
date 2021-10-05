@@ -1,2 +1,2 @@
-# react
-go react
+# react 기초
+항해 리액트 기초반
