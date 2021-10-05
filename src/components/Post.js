@@ -3,7 +3,8 @@ import { Grid, Image, Text, Button } from "../elements";
 
 import {history} from "../redux/configureStore";
 
- const Post = (props) => {
+ const Post = React.memo((props) => {
+   console.log('asddd')
   return (
     <React.Fragment>
       <Grid>
@@ -37,7 +38,8 @@ import {history} from "../redux/configureStore";
       </Grid>
     </React.Fragment>
   );
-};
+});
+
 
 Post.defaultProps = {
   user_info: {
