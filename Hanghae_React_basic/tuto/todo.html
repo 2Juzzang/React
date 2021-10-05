@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 투두</title>
+</head>
+<style>
+    #title {
+        display: flex;
+        color: blue;
+        justify-content: center;
+    }
+    .wrap{
+        display: grid;
+        width: 1170px;
+        margin: auto;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .todo-card {
+        width: 300px;
+        border: gray 1px solid;
+        padding: 2em;
+        margin: 20px auto;
+        border-radius: 5px;
+    }
+    button {
+        font-size: 12px;
+        width: 70px;
+    }
+    .addBtn {
+        margin-left: -12px;
+    }
+    
+</style>
+
+<body>
+   
+    <h1 id="title">오늘 뭐하지?&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>
+            <input id="addWork" type="text" placeholder="추가하기"/>
+            <button id="addBtn" class="addBtn">추가하기</button>
+        </span>
+    </h1>
+    
+    <div class="wrap" id="cardCon">
+        
+    </div>
+
+    
+</body>
+<script>
+    //추가버튼
+    const addcardBtn = document.getElementById('addBtn');
+    addcardBtn.addEventListener('click', () => {
+        let div = document.createElement('div');
+            div.className = "todo-card";
+        let work = document.getElementById('addWork').value;
+        let temp_html = `<h2>${work}</h2>
+                        <button class="success">완료</button>`
+        div.innerHTML = `${temp_html}`
+        document.getElementById('cardCon').appendChild(div);
+    });
+
+    //완료버튼
+    const finish = document.getElementsByClassName('success');
+    for (let i = 0; i < finish.length; i++) {
+        finish[i].addEventListener("click", () => {
+            let card = document.getElementsByClassName('todo-card');
+            card[i].style.backgroundColor = 'gray';
+        })
+    };
+
+
+
+    // const addButton = document.getElementsByClassName('.addBtn');
+    // 자바스크립트로 DOM요소 조작하기
+    
+    //콘솔로 찍어보기
+    // const wraps = document.getElementsByClassName('wrap');
+    // const title = document.getElementById('title');
+    // title.style.backgroundColor = 'yellow';
+    // const buttons = document.getElementsByClassName("finish");
+    // console.log(wraps, title, buttons)
+
+    // 클릭이벤트 만들기
+    // function sayHello() {
+    //     console.log("Hello");           
+    // }
+    // for (let i = 0; i<buttons.length; i++) {
+    //     buttons[i].addEventListener("click", sayHello)
+    
+    
+    //onClick 이벤트
+    // function changeBackground(this) {
+    //     const target = document.getElementsByClassName('todo-card');
+    //     target.style.backgroundColor = 'gray';
+    // }
+
+    //새로운 요소 만들어 붙이기
+    // const new_div = document.createElement('div');
+    // document.body.appendChild(new_div);
+    // new_div.style.width = '100px';
+    // new_div.style.height = '100px';
+    // new_div.style.backgroundColor = 'green';
+
+    
+    
+    
+</script>
+
+</html>
