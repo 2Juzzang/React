@@ -46,7 +46,7 @@ const loginFB = (id, pwd) => {
           var errorCode = error.code;
           var errorMessage = error.message;
 
-          console.log(errorCode, errorMessage);
+          console.log("캐치", errorCode, errorMessage);
         });
     });
   };

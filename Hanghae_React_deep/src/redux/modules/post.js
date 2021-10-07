@@ -3,14 +3,18 @@ import { produce } from "immer";
 import { firestore, storage } from "../../shared/firebase";
 import "moment";
 import moment from "moment";
-
+import { history } from "../configureStore";
 import { actionCreators as imageActions } from "./image";
 
+//액션 타입
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const LOADING = "LOADING";
+const DELETE_POST = "DELETE_POST";
 
+
+//액션 크리에이터
 const setPost = createAction(SET_POST, (post_list, paging) => ({ post_list, paging }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post_id, post) => ({
@@ -18,7 +22,7 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
   post,
 }));
 const loading = createAction(LOADING, (is_loading) => ({is_loading}))
-
+const deletePost = createAction(DELETE_POST, (post_id) => ({post_id}));
 
 const initialState = {
   list: [],
@@ -37,7 +41,24 @@ const initialPost = {
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
 };
+const deletePostFB = (x) => {
+  return function (dispatch, getState, {histroy}){
+    //x가 없으면 종료
+    if(!x){
+      window.alert("삭제할 수 없는 게시글입니다");
+      return;
+    }
+    const postDB = firestore.collection("post");
 
+    //게시글 x를 선택해서 삭제
+    postDB.doc(x).delete().then(res => {
+      dispatch(deletePost(x));
+      history.replace("/");
+    }).catch(err => {
+      console.log("에러", err)
+    })
+  }
+};
 const editPostFB = (post_id = null, post = {}) => {
   return function (dispatch, getState, { history }) {
     if (!post_id) {
@@ -277,11 +298,18 @@ export default handleActions(
 
         draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
       }),
-      [LOADING] : (state, action) => produce(state, (draft) => {
+    [LOADING] : (state, action) => produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
-      })
-  },
-  initialState
+      }),
+    [DELETE_POST] : (state, action) => produce(state, (draft) => { 
+      let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+
+      if(idx !== -1){
+        // 배열에서 idx 위치의 요소 1개를 지웁니다.
+        draft.list.splice(idx, 1);
+      }
+  })
+ }, initialState
 );
 
 const actionCreators = {
@@ -291,7 +319,8 @@ const actionCreators = {
   getPostFB,
   addPostFB,
   editPostFB,
-  getOnePostFB
+  getOnePostFB,
+  deletePostFB
 };
 
 export { actionCreators };

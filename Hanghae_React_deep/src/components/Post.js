@@ -1,9 +1,11 @@
 import React from "react";
 import { Grid, Image, Text, Button } from "../elements";
-
+import { actionCreators } from "../redux/modules/post";
 import {history} from "../redux/configureStore";
+import { useDispatch } from "react-redux";
 
  const Post = React.memo((props) => {
+   const dispatch = useDispatch();
    console.log('asddd')
   return (
     <React.Fragment>
@@ -16,10 +18,23 @@ import {history} from "../redux/configureStore";
           <Grid is_flex width="auto">
             <Text>{props.insert_dt}</Text>
             {props.is_me && (
-              <Button width="auto" margin="4px" padding="4px" _onClick={() => {
+              <Button width="auto" margin="4px" padding="4px" _onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 history.push(`/write/${props.id}`);
               }}>
                 수정
+              </Button>
+            )}
+            {props.is_me && (
+              <Button width="auto" margin="4px" padding="4px" _onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if(window.confirm("삭제하시겠습니까?")){
+                dispatch(actionCreators.deletePostFB(props.id));
+              }
+              }}>
+                삭제
               </Button>
             )}
           </Grid>
