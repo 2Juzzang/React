@@ -35,7 +35,7 @@ export function deletePost(post) {
 export const loadPostFB = () => {
     return async function (dispatch) {
         const post_data = await getDocs(collection(db, "write")); 
-        console.log("데이터내놔", post_data);
+        // console.log("데이터내놔", post_data);
 
         let post = [];
 
@@ -44,7 +44,7 @@ export const loadPostFB = () => {
             post.push({id:p.id, ...p.data()});
         });
 
-        console.log("나왔냐", post);
+        // console.log("나왔냐", post);
         dispatch(loadPost(post));
     }
 }
@@ -59,25 +59,37 @@ export const addPostFB = (post) => {
        const _post = await getDoc(docRef);
     //    추가하는 데이터
        const post_data = {id: _post.id, ..._post.data()};
-       console.log("포스트", post_data);
-       //리덕스에 등록하기
-       dispatch(createPost(post_data));
+    //    console.log("포스트", post_data);
+       //리덕스에 등록하기, 글이 두개가 생기므로 주석처리
+    //    dispatch(createPost(post_data));
     }
 }
 
 //삭제
-export const deletePostFB = (post) => {
-    return async function (dispatch) {
-        console.log(post, "잊어야하잖아");
-        const docRef = await deleteDoc(collection(db, "write"), post);
-        console.log(docRef, "잊어야하잖아2");
-        const _post = await getDoc(docRef);
+// export const deletePostFB = (post) => {
+//     return async function (dispatch) {
+//         console.log(post, "잊어야하잖아");
+//         const docRef = await deleteDoc(collection(db, "write", post);
+//         console.log(docRef, "잊어야하잖아2");
+//         const _post = await getDoc(docRef);
 
-        const post_data = {id: _post.id, ...post.data()};
-        console.log('삭제하기', post_data)
-        dispatch(deletePost(post_data));
+//         const post_data = {id: _post.id, ...post.data()};
+//         console.log('삭제하기', post_data)
+//         dispatch(deletePost(post_data));
+//     }
+// }
+//FB 삭제 
+export const deletePostFB = (post) => {
+    return async (dispatch, getState) => {
+        const docRef = doc(db, "write", post);
+        await deleteDoc(docRef);
+        dispatch(deletePost(post));
     }
 }
+
+
+
+
 
 // 미들웨어 끝
 
@@ -85,24 +97,35 @@ export const deletePostFB = (post) => {
 // Reducer
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
-        // 위에 선언한 CREATE로 써줘도 된다 당연히ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ
         case "post/CREATE": {
-            // console.log("이제 값을 바꿀거야!");
-            const new_post_list = [...state.post, action.post];
-            return { post : new_post_list };
+            // const new_post_list = [...state.post, action.post];
+            return { post : [...state.post, action.post] };
         }
         case "post/LOAD": {
-            console.log("aa", state, action)
+            // console.log("aa", state, action)
             return { post : action.post };
         }
         case "post/DELETE":{
             let idx = state.post.findIndex((d) => d.id === action.post );
             console.log("삭제 찍히니", idx)
-            if(idx !== -1){
-                state.post.splice(idx, 1);
-            }
+            //틀림, 왜?
+            //state.post.splice(idx, 1); 자체가 안먹힘
+            //콘솔안찍어서 확인못한것
+            // if(idx !== -1){
+            //     state.post.splice(idx, 1);
+            // }
 
-            return { post : state.post };
+            //필터 리턴 우측이 조건, 조건에 해당에하는 값만 배열로 반환
+            //item은 객체, 아이템이란 이름으로 하나씩 배열로 반환
+            const newPost = state.post.filter((item, index) => {
+                console.log("아이템", item)
+                console.log("인덱스", index)
+                return idx !== index;
+            })
+            
+            console.log("스플라이스", state.post.splice(idx, 1) )
+            console.log("리듀서", state)
+            return { post : newPost };
         }
         default:
             return state;

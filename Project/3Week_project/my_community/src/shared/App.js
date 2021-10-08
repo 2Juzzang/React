@@ -8,7 +8,7 @@ import Home from '../pages/Home';
 import './App.css';
 
 function App() {
-  
+  const history = useHistory();
   return (
       <div style={{width:"360px", height:"100%", margin:"auto"}}>
         <div style={{backgroundColor:"#EEEEEE", height:"100%"}}>
@@ -16,7 +16,7 @@ function App() {
             {/* 헤더 */}
             <div style={{fontSize:"20px", fontWeight:"bold" , padding:"8px", display:"flex", justifyContent:"space-between"}}>
               
-              <div>Hello</div>
+              <div onClick={()=>{history.push("/")}}>Hello</div>
               {/* 로그인 가입 div */}
               {/* <div>
                 <span onClick={ () => {addImg('https://images.velog.io/images/2_juzzang/post/aff4e7a2-0bbe-4b4e-906d-c33dbc5aacd9/%EB%A1%9C%EC%BB%AC%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80.PNG')} }
@@ -28,6 +28,7 @@ function App() {
 
             <Route path="/" exact component={Home} />
             <Route path="/write" exact component={PostWrite} />
+            <Route path="/write/:id" exact component={PostWrite} />
 
 
         </div>
