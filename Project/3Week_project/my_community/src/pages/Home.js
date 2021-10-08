@@ -9,7 +9,7 @@ const Home = (props) => {
     const history = useHistory();
     // 구독
     const postList = useSelector((state) => state.post.post);
-    console.log("포스트리스트", postList)
+    // console.log("포스트리스트", postList)
     
     //새로고침 했을 때 데이터를 한 번만 로드하기 위해 
       React.useEffect(() => {

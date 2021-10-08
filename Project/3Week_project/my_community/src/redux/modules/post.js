@@ -1,17 +1,17 @@
+/* eslint-disable no-fallthrough */
 import {db} from "../../shared/firebase"
-import { collection, getDoc, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
+import { collection, getDoc, getDocs, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 // Actions
 const CREATE = "post/CREATE";
 const LOAD = "post/LOAD";
 const DELETE = "post/DELETE";
+const EDIT = "post/EDIT"
 
 // 초기 값 설정 > 페이지 뷰에 2개가 나온다.
 const initialState = {
-    post: [
-        { contents:'글작성하기' },
-        { contents:'글작성하기2'}
-    ],
+    post: [],
 }; 
+
 // 홈 loadPostFB > 미들웨어 > 액션생성함수 > 리듀서 > 스토어에 저장 (새로운 state)
 //Action creators
 export function loadPost(post) {
@@ -28,6 +28,9 @@ export function deletePost(post) {
     
 }
 
+export function editPost(post) {
+    return { type: EDIT, post};
+}
 
 // middlewares
 
@@ -64,6 +67,33 @@ export const addPostFB = (post) => {
     //    dispatch(createPost(post_data));
     }
 }
+//수정
+// export const editPostFB = (post) => {
+//     console.log("asd", post)
+//     return async (dispatch) => {
+//       const docRef = doc(db, 'write', post);
+//       await updateDoc(docRef, post)
+//       dispatch(editPost(post));
+//     }
+//   }
+  
+export const editPostFB = (post_id = null, post = {}) => {
+    return async function (dispatch){
+        if(!post_id) {
+            console.log("게시물 정보가 없어요");
+            return;
+        }
+        
+        const docRef = doc(db, "write", post_id);
+        // console.log("ㅁㅁㅁ", docRef)
+        await updateDoc(docRef, post);
+        // console.log("들어왔니", post_id, post);
+        // console.log("디비", )
+        dispatch(editPost(post))
+        
+    }
+}
+
 
 //삭제
 // export const deletePostFB = (post) => {
@@ -105,9 +135,22 @@ export default function reducer(state = initialState, action = {}) {
             // console.log("aa", state, action)
             return { post : action.post };
         }
+        case "post/EDIT":{
+            const new_post_list = state.post.map(item => {
+                // console.log("MMM", state.post);
+                if(item.id !== action.post.id) {
+                    return item;
+                }
+                    return {
+                    ...state.post,
+                    ...action.post,
+                };
+            })
+        } 
+
         case "post/DELETE":{
             let idx = state.post.findIndex((d) => d.id === action.post );
-            console.log("삭제 찍히니", idx)
+            // console.log("삭제 찍히니", idx)
             //틀림, 왜?
             //state.post.splice(idx, 1); 자체가 안먹힘
             //콘솔안찍어서 확인못한것
@@ -118,13 +161,13 @@ export default function reducer(state = initialState, action = {}) {
             //필터 리턴 우측이 조건, 조건에 해당에하는 값만 배열로 반환
             //item은 객체, 아이템이란 이름으로 하나씩 배열로 반환
             const newPost = state.post.filter((item, index) => {
-                console.log("아이템", item)
-                console.log("인덱스", index)
+                // console.log("아이템", item)
+                // console.log("인덱스", index)
                 return idx !== index;
             })
             
-            console.log("스플라이스", state.post.splice(idx, 1) )
-            console.log("리듀서", state)
+            // console.log("스플라이스", state.post.splice(idx, 1) )
+            // console.log("리듀서", state)
             return { post : newPost };
         }
         default:

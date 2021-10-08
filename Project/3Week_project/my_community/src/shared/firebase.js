@@ -13,8 +13,8 @@ const firebaseConfig = {
   projectId: "sparta-react-basic-50bfc",
   storageBucket: "sparta-react-basic-50bfc.appspot.com",
   messagingSenderId: "654217068875",
-  appId: "1:654217068875:web:fb1648fa77ca0ad15628ce",
-  measurementId: "G-4GTT3H1CBH"
+  appId: "1:654217068875:web:7828b910489bc9f95628ce",
+  measurementId: "G-SLHWPHVCNZ"
 };
 
 initializeApp(firebaseConfig)
