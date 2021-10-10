@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Route, Link } from 'react-router-dom';
+import React from "react";
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { deletePostFB, loadPostFB } from '../redux/modules/post';
@@ -8,6 +7,7 @@ const Home = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
     // 구독
+    // 리듀서에서 리턴해서 갱신한 post의 값을 구독, map을 통해 뷰 구현, 삭제시에도 사용
     const postList = useSelector((state) => state.post.post);
     // console.log("포스트리스트", postList)
     
@@ -24,34 +24,41 @@ const Home = (props) => {
                 
                 <button style={{ all:"unset", color:"white", fontSize:"14px", marginRight:"10px", cursor:"pointer" }}
                 onClick={()=>{
+                  // 클릭시 글쓰기 페이지로
                     history.push("/write")
                   }}>
                   글쓰기
                 </button>
         </div>
         {
+          // 맵 메세드로 뷰에 뿌려주기
             postList.map((a, i) => {
             return  ( 
-            <div key={i} style={{ width:"360px", height: "180px", display:"flex", flexDirection:"column", marginTop:"40px" ,backgroundColor:"white" }}>
-                <div onClick={()=>{console.log(a)}} style={{marginBottom:"10px"}}>{a.contents}</div>
+              // 컴포넌트로 만들었으면 좋았을 걸
+              //수정하기
+            <div key={i} style={{ width:"360px", height: "180px", display:"flex", flexDirection:"column", marginTop:"40px" ,backgroundColor:"#eee" }}>
+                <div style={{marginBottom:"10px"}}>{a.contents}</div>
                 <button 
                 onClick={(e)=>{
+                  // 이벤트 버블링, 캡쳐링 방지
                   e.preventDefault();
                   e.stopPropagation();
+                  // 글의 id값이 있는 페이지로 이동 (수정)
                   history.push(`/write/${a.id}`);
-                  // console.log("뭘받니?", a)
+                  // console.log("a가 받아오는 데이터 확인", a)
                 }}
-                style={{all:"unset", backgroundColor:"red", width:"50px", position:"relative"}}>수정하기</button>
+                style={{all:"unset", backgroundColor:"red", position:"relative",textAlign:"center", marginBottom:"5px", padding:"10px"}}>수정하기</button>
+                {/* 삭제하기 - 1 */}
                 <button 
                 onClick={(e)=>{
                   e.preventDefault();
                   e.stopPropagation();
+                  //삭제 알림창
                   if(window.confirm("삭제하시겠습니까?"))
-                  // console.log("그렇군요", postList[i].id)
-                  // dispatch(deletePost(postList[i].id))
+                  // id값을 넘겨준다. 
                   dispatch(deletePostFB(postList[i].id));
                 }}
-                style={{all:"unset", backgroundColor:"black", width:"50px", position:"relative"}}>삭제하기</button>
+                style={{all:"unset",color:"white", backgroundColor:"black",textAlign:"center", position:"relative", padding:"10px"}}>삭제하기</button>
             </div>
             )
             })
