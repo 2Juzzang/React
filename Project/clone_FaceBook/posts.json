@@ -1,0 +1,61 @@
+{
+  "posts": [
+    {
+      "id": 2,
+      "content": "게시글 test 5",
+      "userName": "유저 test 5",
+      "insertDt": "2021-10-11",
+      "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg",
+      "image": "https://image10.coupangcdn.com/image/mobile/v3/img_fb_like.png",
+      "comment": [
+        {
+          "id": 2,
+          "comment": "git commit -m '아무것도 안함'",
+          "userName": "쿠팡",
+          "insertDt": "2021-10-13",
+          "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg"
+        }
+      ],
+      "commentCnt": 1,
+      "likeCnt": 2
+    },
+    {
+      "id": 3,
+      "content": "게시글 test 5",
+      "userName": "유저 test 5",
+      "insertDt": "2021-10-11",
+      "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg",
+      "image": "https://image10.coupangcdn.com/image/mobile/v3/img_fb_like.png",
+      "comment": [
+        {
+          "id": 2,
+          "comment": "git commit -m '아무것도 안함'",
+          "userName": "쿠팡",
+          "insertDt": "2021-10-13",
+          "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg"
+        }
+      ],
+      "commentCnt": 1,
+      "likeCnt": 2
+    },
+    {
+      "id": 16,
+      "content": "게시글 test 5",
+      "userName": "유저 test 5",
+      "insertDt": "2021-10-11",
+      "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg",
+      "image": "https://image10.coupangcdn.com/image/mobile/v3/img_fb_like.png",
+      "comment": [
+        {
+          "id": 2,
+          "comment": "git commit -m '아무것도 안함'",
+          "userName": "쿠팡",
+          "insertDt": "2021-10-13",
+          "profile": "https://news.coupang.com/wp-content/uploads/2021/02/coupang-bi_00.jpg"
+        }
+      ],
+      "commentCnt": 1,
+      "likeCnt": 2
+    }
+  ]
+}
