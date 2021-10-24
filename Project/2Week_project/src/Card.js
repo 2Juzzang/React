@@ -9,12 +9,10 @@ import { useDispatch } from "react-redux";
 
 function Card (props) {
     const dispatch = useDispatch();
-    React.useEffect(async() => {
+    React.useEffect( () => {
     dispatch(loadMusicFB());
 }, []);
-
     const list = useSelector((state) => state.song.list);
-    // console.log(list)
     return(
             <>
             {list.map((i, index) =>{

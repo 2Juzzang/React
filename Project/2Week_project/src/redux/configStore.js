@@ -1,5 +1,5 @@
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
-import song from "./modules/song"
+import song from "./modules/song";
 import thunk from "redux-thunk";
 
 // 미들웨어 묶음

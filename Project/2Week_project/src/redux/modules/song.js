@@ -1,5 +1,5 @@
 import {db} from "../../firebase"
-import { collection, getDoc, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDoc, getDocs, addDoc, updatedoc, doc } from "firebase/firestore";
 // Actions
 const CREATE = "song/CREATE";
 const LOAD = "song/LOAD";
@@ -13,12 +13,12 @@ const initialState = {
     ],
 };
 
-//Action creators
+//Action creators 액션 생성함수를 만들고 내보내기
 export function loadMusic(music){
     return {type: LOAD, music}
 }
 export function createCard(song) {
-    console.log("액션을 생성할거야!");
+    //액션을 생성
     return { type: CREATE, song};
 }
 

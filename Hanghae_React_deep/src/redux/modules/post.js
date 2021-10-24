@@ -51,7 +51,10 @@ const deletePostFB = (x) => {
     const postDB = firestore.collection("post");
 
     //게시글 x를 선택해서 삭제
-    postDB.doc(x).delete().then(res => {
+    postDB
+    .doc(x)
+    .delete()
+    .then(res => {
       dispatch(deletePost(x));
       history.replace("/");
     }).catch(err => {
@@ -68,6 +71,7 @@ const editPostFB = (post_id = null, post = {}) => {
 
     const _image = getState().image.preview;
 
+    //인덱스의 아이디와 포스트아이디의 값이 같은지 확인
     const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
     const _post = getState().post.list[_post_idx];
 

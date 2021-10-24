@@ -26,7 +26,7 @@ function App() {
     }}><img src={Plus} className="plus"/>
     </AddBtn>
     </Border>
-    </Route>
+    </Route> 
     <Route path="/AddCard" exact component={AddCard} />
   
     </>

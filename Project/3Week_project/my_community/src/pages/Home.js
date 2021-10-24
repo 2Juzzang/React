@@ -31,7 +31,7 @@ const Home = (props) => {
                 </button>
         </div>
         {
-          // 맵 메세드로 뷰에 뿌려주기
+          // 맵 메서드로 뷰에 뿌려주기
             postList.map((a, i) => {
             return  ( 
               // 컴포넌트로 만들었으면 좋았을 걸
