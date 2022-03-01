@@ -65,7 +65,7 @@ const Soulbinds = ({ access, charName }) => {
           <h4>영예 {renown}</h4>
         </div>
       </div>
-      <div style={{ height: '70px', marginLeft: '10px' }}>
+      <div style={{ height: '70px', marginLeft: '5px' }}>
         <img
           height={'70px'}
           src={

@@ -46,7 +46,7 @@ const Profile = ({
               width: '700px',
               margin: '0 auto',
               backgroundSize: '1200px',
-              backgroundPosition: 'center',
+              backgroundPosition: faction === 'HORDE' ? 'center' : '-200px',
               backgroundRepeat: 'no-repeat',
               backgroundImage:
                 faction === 'HORDE'
@@ -104,38 +104,6 @@ const Profile = ({
                 color: 'white',
               }}
             >
-              {/* <h2
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  // fontSize: '30px',
-                  color: charClass.includes('전사')
-                    ? '#C79C6E'
-                    : charClass.includes('성기사')
-                    ? '#F58CBA'
-                    : charClass.includes('죽음의 기사')
-                    ? '#C41F3B'
-                    : charClass.includes('주술사')
-                    ? '#0070DE'
-                    : charClass.includes('사제')
-                    ? '#FFF'
-                    : charClass.includes('드루이드')
-                    ? '#FF7D0A'
-                    : charClass.includes('도적')
-                    ? '#FFF569'
-                    : charClass.includes('수도사')
-                    ? '#00FF96'
-                    : charClass.includes('마사냥꾼')
-                    ? '#A330C9'
-                    : charClass.includes('마법사')
-                    ? '#69CCF0'
-                    : charClass.includes('흑마법사')
-                    ? '#9482C9'
-                    : '#ABD473',
-                }}
-              >
-                {charName}
-              </h2> */}
               <div style={{ margin: 'auto 20px' }}>
                 <div
                   style={{
