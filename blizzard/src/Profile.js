@@ -28,7 +28,7 @@ const Profile = ({
         )
         .then((res) => {
           console.log(res.data);
-          setProfile(res.data.assets[0].value);
+          setProfile(res.data.assets[3].value);
         });
     } catch (e) {
       console.log(e);
@@ -44,9 +44,8 @@ const Profile = ({
           <div
             style={{
               width: '700px',
-              height: '130px',
               margin: '0 auto',
-              // backgroundSize: '40%',
+              backgroundSize: '1200px',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               backgroundImage:
@@ -55,30 +54,74 @@ const Profile = ({
                   : 'url(/assets/alliance.png)',
             }}
           >
-            {/* <div
+            <div
               style={{
                 display: 'flex',
-                padding: '20px 50px',
+                height: '100px',
+                padding: '0 50px',
                 color: 'white',
               }}
             >
-              <h2 style={{ color: 'blue' }}>{charName}</h2>
-              <h3>{server}</h3>
-              <h3>{lv}</h3>
-              <h3>{race}</h3>
-              <h3>{charClass}</h3>
-              <h3>{itemLv}</h3>
-            </div> */}
+              <h2
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  // fontSize: '30px',
+                  color: charClass.includes('전사')
+                    ? '#C79C6E'
+                    : charClass.includes('성기사')
+                    ? '#F58CBA'
+                    : charClass.includes('죽음의 기사')
+                    ? '#C41F3B'
+                    : charClass.includes('주술사')
+                    ? '#0070DE'
+                    : charClass.includes('사제')
+                    ? '#FFF'
+                    : charClass.includes('드루이드')
+                    ? '#FF7D0A'
+                    : charClass.includes('도적')
+                    ? '#FFF569'
+                    : charClass.includes('수도사')
+                    ? '#00FF96'
+                    : charClass.includes('마사냥꾼')
+                    ? '#A330C9'
+                    : charClass.includes('마법사')
+                    ? '#69CCF0'
+                    : charClass.includes('흑마법사')
+                    ? '#9482C9'
+                    : '#ABD473',
+                }}
+              >
+                {charName}
+              </h2>
+              <div style={{ margin: 'auto 20px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '20px',
+                  }}
+                >
+                  <h4>{server}&nbsp;</h4>
+                  <h4>Lv. {lv}&nbsp;</h4>
+                  <h4 style={{ color: '#ded100' }}>Item Lv. {itemLv}</h4>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '20px',
+                  }}
+                >
+                  <h4>{race}&nbsp;</h4>
+                  <h4>{charClass}</h4>
+                </div>
+              </div>
+            </div>
             <img
               style={{
-                display: 'flex',
-                // position: 'relative',
-                // left: '-250px',
-                // display: 'flex',
-                // flexDirection: 'row',
                 objectFit: 'cover',
-                width: '130px',
-                // height: '100%',
+                width: '700px',
               }}
               src={profile}
             />
