@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Soulbinds from './Soulbinds';
 const Profile = ({
   access,
   charName,
@@ -11,6 +12,7 @@ const Profile = ({
   itemLv,
 }) => {
   const [profile, setProfile] = useState('');
+  const [soulbind, setSoulbind] = useState('');
   const getProfile = async () => {
     try {
       await axios
@@ -22,7 +24,6 @@ const Profile = ({
               namespace: 'profile-kr',
               locale: 'ko-KR',
               access_token: access,
-              // Authorization: 'Bearer ' + access,
             },
           },
         )
@@ -117,6 +118,7 @@ const Profile = ({
                   <h4>{charClass}</h4>
                 </div>
               </div>
+              <Soulbinds />
             </div>
             <img
               style={{
