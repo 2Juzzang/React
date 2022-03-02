@@ -63,26 +63,6 @@ const Char = () => {
         <input value={inputName} onChange={inputNickname}></input>
         <button onClick={getChar}>캐릭터 확인</button>
       </div>
-      {/* <div style={{ display: 'flex', margin: 'auto' }}>
-        <div
-          style={{
-            width: '1920px',
-            height: '250px',
-            margin: '0 auto',
-            backgroundSize: '40%',
-            backgroundPosition: '50%',
-            backgroundRepeat: 'no-repeat',
-            backgroundImage: 'url(/assets/horde.png)',
-          }}
-        ></div>
-      </div> */}
-      {/* <div>서버 : {server}</div>
-      <div>진영 : {faction}</div>
-      <div>종족 : {race}</div>
-      <div>닉네임 : {charName} </div>
-      <div>직업 : {charClass}</div>
-      <div>레벨 : {lv}</div>
-      <div>아이템 레벨 : {itemLv}</div> */}
       {access ? (
         <>
           <Profile
