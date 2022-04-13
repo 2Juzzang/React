@@ -4,7 +4,7 @@ import Nav from './header/Nav';
 import SearchBar from './header/SearchBar';
 const Header = () => {
   return (
-    <div className='fixed w-full'>
+    <div className='fixed top-0 w-full bg-white z-10'>
       <Nav />
       <hr />
       <SearchBar />
